@@ -1,0 +1,173 @@
+; The Perfect Tower II — suíte de produção
+; Fonte exportada do editor d0sboots 2.07 (jogo v1.0.12) em 2026-11-13.
+; Cole cada bloco :name em um script separado no editor.
+
+:name Toggle_F
+:global int active
+key.f()
+gotoif(turn_off, active == 1)
+active = 1
+execute("Master")
+goto(99)
+turn_off:
+active = 0
+stop("Master")
+stop("Auto_Mine")
+stop("Auto_Shop")
+stop("Auto_Base")
+stop("Auto_Parts")
+stop("Auto_Up1")
+stop("Auto_Up2")
+stop("Auto_Prod1")
+stop("Auto_Prod2")
+
+:name Master
+cycle:
+stop("Auto_Shop")
+stop("Auto_Base")
+stop("Auto_Parts")
+stop("Auto_Up1")
+stop("Auto_Up2")
+stop("Auto_Prod1")
+stop("Auto_Prod2")
+show("factory", false)
+show("mine", true)
+execute("Auto_Mine")
+wait(1.5)
+stop("Auto_Mine")
+show("mine", false)
+show("factory", true)
+execute("Auto_Shop")
+execute("Auto_Base")
+execute("Auto_Parts")
+execute("Auto_Up1")
+execute("Auto_Up2")
+execute("Auto_Prod1")
+execute("Auto_Prod2")
+wait(45.0)
+goto(cycle)
+
+:name Auto_Mine
+:local int y
+newlayer()
+y = 0
+row_loop:
+dig(0, y)
+dig(1, y)
+dig(2, y)
+dig(3, y)
+y = y + 1
+gotoif(row_loop, y < 4)
+
+:name Auto_Shop
+start:
+craft("sapling.rubber", 1, 200.0)
+craft("sapling.void", 1, 50.0)
+craft("dust.rainbow", 1, 50.0)
+craft("hammer", 1, 100.0)
+craft("plate", 1, 200.0)
+craft("plate.stack", 1, 100.0)
+craft("cable.insulated", 1, 200.0)
+craft("block", 1, 100.0)
+craft("chip", 1, 100.0)
+craft("motor", 1, 100.0)
+craft("pump", 1, 100.0)
+
+:name Auto_Base
+:local int t
+start:
+t = 1
+loop:
+produce("ore", t, 100.0, "crusher")
+produce("ore", t, 100.0, "oven")
+produce("dust", t, 100.0, "mixer")
+craft("lump", t, 50.0)
+produce("lump", t, 50.0, "refinery")
+produce("ingot", t, 50.0, "presser")
+produce("ingot", t, 50.0, "cutter")
+produce("ingot", t, 50.0, "shaper")
+produce("rod", t, 50.0, "cutter")
+produce("rod", t, 50.0, "shaper")
+produce("plate", t, 50.0, "presser")
+t = t + 1
+gotoif(loop, t <= 5)
+goto(start)
+
+:name Auto_Parts
+:local int t
+start:
+t = 1
+produce("dust", 1, 50.0, "mixer")
+produce("rubber", 1, 50.0, "oven")
+produce("rubber", 1, 50.0, "cutter")
+loop:
+craft("plate.stack", t, 10.0)
+craft("block", t, 10.0)
+craft("cable.insulated", t, 10.0)
+craft("chip", t, 5.0)
+craft("motor", t, 5.0)
+craft("pump", t, 5.0)
+t = t + 1
+gotoif(loop, t <= 5)
+goto(start)
+
+:name Auto_Up1
+:local int t
+start:
+t = 2
+loop:
+craft("machine.oven", t, 1.0)
+craft("machine.presser", t, 1.0)
+craft("machine.assembler", t, 1.0)
+craft("machine.refinery", t, 1.0)
+craft("machine.crusher", t, 1.0)
+t = t + 1
+gotoif(loop, t <= 5)
+goto(start)
+
+:name Auto_Up2
+:local int t
+start:
+t = 2
+loop:
+craft("machine.cutter", t, 1.0)
+craft("machine.mixer", t, 1.0)
+craft("machine.shaper", t, 1.0)
+craft("machine.boiler", t, 1.0)
+craft("machine.transportbelt", t, 1.0)
+t = t + 1
+gotoif(loop, t <= 5)
+goto(start)
+
+:name Auto_Prod1
+:local int t
+start:
+t = 1
+loop:
+craft("producer.factory", t, 5.0)
+craft("producer.mine", t, 5.0)
+craft("producer.powerplant", t, 5.0)
+craft("producer.headquarters", t, 5.0)
+craft("producer.laboratory", t, 5.0)
+craft("producer.workshop", t, 5.0)
+craft("producer.constructionFirm", t, 5.0)
+craft("producer.town", t, 5.0)
+t = t + 1
+gotoif(loop, t <= 5)
+goto(start)
+
+:name Auto_Prod2
+:local int t
+start:
+t = 1
+loop:
+craft("producer.gems", t, 5.0)
+craft("producer.exoticgems", t, 5.0)
+craft("producer.museum", t, 5.0)
+craft("producer.shipyard", t, 5.0)
+craft("producer.tradingpost", t, 5.0)
+craft("producer.arcade", t, 5.0)
+craft("producer.statueofcubos", t, 5.0)
+t = t + 1
+gotoif(loop, t <= 5)
+goto(start)
