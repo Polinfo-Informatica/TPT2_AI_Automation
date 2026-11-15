@@ -15,4 +15,4 @@ A simulação do seletor confirmou que custo ausente de tier superior não bloqu
 
 O código da revisão 05 permanece em revisão local. A execução no jogo v1.0.16, o tier do Belt, o planejador de receitas/custos, a ligação ao Master e a duração da janela da Torre estão pendentes.
 
-A confirmação `TPT2_ACK` foi preparada para o documento TPT2_Master_Sync.
+A confirmação `TPT2_ACK` foi registrada no documento TPT2_Master_Sync.
