@@ -1,0 +1,58 @@
+:name Auto_Mine
+:global int active
+:global int mine_state
+:global int mine_first_tab
+:global int mine_last_tab
+:global int mine_max_layers
+:local int cur_tab
+:local int layers
+:local int y
+:local int max_l
+:local int any_cap_hit
+; mine_state: 0 = running, 1 = depleted, 2 = repeat (at least one tab hit cap), 3 = interrupted, 4 = missing_config
+mine_state = 0
+any_cap_hit = 0
+gotoif(check_cap, mine_first_tab >= 1 && mine_last_tab >= mine_first_tab && mine_last_tab <= 12)
+mine_state = 4
+goto(99)
+check_cap:
+max_l = mine_max_layers
+gotoif(init_run, max_l > 0)
+max_l = 25
+init_run:
+gotoif(abort_mine, active == 0 || isopen("mine") == false)
+cur_tab = mine_first_tab
+tab_loop:
+gotoif(abort_mine, active == 0 || isopen("mine") == false)
+tab(cur_tab)
+waitframe()
+layers = 0
+dig_visible:
+gotoif(abort_mine, active == 0 || isopen("mine") == false)
+y = 0
+row_loop:
+dig(0, y)
+dig(1, y)
+dig(2, y)
+dig(3, y)
+y = y + 1
+gotoif(row_loop, y < 4)
+gotoif(next_tab, mine.hasLayers() == false)
+gotoif(tab_cap_hit, layers >= max_l)
+newlayer()
+layers = layers + 1
+waitframe()
+goto(dig_visible)
+tab_cap_hit:
+any_cap_hit = 1
+next_tab:
+cur_tab = cur_tab + 1
+gotoif(tab_loop, cur_tab <= mine_last_tab)
+gotoif(set_repeat, any_cap_hit == 1)
+mine_state = 1
+goto(99)
+set_repeat:
+mine_state = 2
+goto(99)
+abort_mine:
+mine_state = 3
