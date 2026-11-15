@@ -1,0 +1,58 @@
+:name Tie_Break_A
+:global int t_oven
+:global int t_assembler
+:global int t_refinery
+:global int t_crusher
+:global int t_cutter
+:global int cost_1
+:global int cost_2
+:global int cost_3
+:global int cost_4
+:global int cost_5
+:global int cost_ok_1
+:global int cost_ok_2
+:global int cost_ok_3
+:global int cost_ok_4
+:global int cost_ok_5
+:global int min_t
+:global int cand_id
+:global int cand_cost
+:global int selector_state
+gotoif(end_ta, selector_state != 6)
+cand_id = 0
+cand_cost = 999999999
+gotoif(c2, t_oven != min_t)
+gotoif(err_cost, cost_ok_1 != 1)
+gotoif(c2, cand_id != 0 && cost_1 >= cand_cost)
+cand_id = 1
+cand_cost = cost_1
+c2:
+gotoif(c3, t_assembler != min_t)
+gotoif(err_cost, cost_ok_2 != 1)
+gotoif(c3, cand_id != 0 && cost_2 >= cand_cost)
+cand_id = 2
+cand_cost = cost_2
+c3:
+gotoif(c4, t_refinery != min_t)
+gotoif(err_cost, cost_ok_3 != 1)
+gotoif(c4, cand_id != 0 && cost_3 >= cand_cost)
+cand_id = 3
+cand_cost = cost_3
+c4:
+gotoif(c5, t_crusher != min_t)
+gotoif(err_cost, cost_ok_4 != 1)
+gotoif(c5, cand_id != 0 && cost_4 >= cand_cost)
+cand_id = 4
+cand_cost = cost_4
+c5:
+gotoif(done_ta, t_cutter != min_t)
+gotoif(err_cost, cost_ok_5 != 1)
+gotoif(done_ta, cand_id != 0 && cost_5 >= cand_cost)
+cand_id = 5
+cand_cost = cost_5
+done_ta:
+selector_state = 7
+goto(99)
+err_cost:
+selector_state = 3
+end_ta:

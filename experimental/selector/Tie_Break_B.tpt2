@@ -1,0 +1,61 @@
+:name Tie_Break_B
+:global int t_presser
+:global int t_mixer
+:global int t_shaper
+:global int t_boiler
+:global int t_belt
+:global int cost_6
+:global int cost_7
+:global int cost_8
+:global int cost_9
+:global int cost_10
+:global int cost_ok_6
+:global int cost_ok_7
+:global int cost_ok_8
+:global int cost_ok_9
+:global int cost_ok_10
+:global int min_t
+:global int cand_id
+:global int cand_cost
+:global int locked_id
+:global int locked_tier
+:global int selector_state
+gotoif(end_tb, selector_state != 7)
+gotoif(c7, t_presser != min_t)
+gotoif(err_cost, cost_ok_6 != 1)
+gotoif(c7, cand_id != 0 && cost_6 >= cand_cost)
+cand_id = 6
+cand_cost = cost_6
+c7:
+gotoif(c8, t_mixer != min_t)
+gotoif(err_cost, cost_ok_7 != 1)
+gotoif(c8, cand_id != 0 && cost_7 >= cand_cost)
+cand_id = 7
+cand_cost = cost_7
+c8:
+gotoif(c9, t_shaper != min_t)
+gotoif(err_cost, cost_ok_8 != 1)
+gotoif(c9, cand_id != 0 && cost_8 >= cand_cost)
+cand_id = 8
+cand_cost = cost_8
+c9:
+gotoif(c10, t_boiler != min_t)
+gotoif(err_cost, cost_ok_9 != 1)
+gotoif(c10, cand_id != 0 && cost_9 >= cand_cost)
+cand_id = 9
+cand_cost = cost_9
+c10:
+gotoif(finalize, t_belt != min_t)
+gotoif(err_cost, cost_ok_10 != 1)
+gotoif(finalize, cand_id != 0 && cost_10 >= cand_cost)
+cand_id = 10
+cand_cost = cost_10
+finalize:
+gotoif(err_cost, cand_id == 0)
+locked_id = cand_id
+locked_tier = min_t + 1
+selector_state = 1
+goto(99)
+err_cost:
+selector_state = 3
+end_tb:

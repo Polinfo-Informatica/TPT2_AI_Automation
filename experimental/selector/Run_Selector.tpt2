@@ -1,0 +1,13 @@
+:name Run_Selector
+:global int selector_state
+
+executesync("Check_Lock")
+gotoif(done, selector_state != 5)
+executesync("Find_Min_Tier")
+gotoif(done, selector_state != 6)
+executesync("Resolve_Unique")
+gotoif(done, selector_state != 6)
+executesync("Tie_Break_A")
+gotoif(done, selector_state != 7)
+executesync("Tie_Break_B")
+done:

@@ -1,0 +1,58 @@
+:name Check_Lock
+:global int t_oven
+:global int t_assembler
+:global int t_refinery
+:global int t_crusher
+:global int t_cutter
+:global int t_presser
+:global int t_mixer
+:global int t_shaper
+:global int t_boiler
+:global int t_belt
+:global int snap_valid
+:global int target_tier_cap
+:global int locked_id
+:global int locked_tier
+:global int selector_state
+:local int cap
+:local int cur_t
+; selector_state: 0 = running, 1 = locked_ready, 2 = missing_snapshot_or_coverage, 3 = missing_planner_cost, 4 = all_targets_met, 5 = need_min_tier, 6 = need_tie_a, 7 = need_tie_b
+selector_state = 0
+cap = target_tier_cap
+gotoif(cap_ok, cap >= 2 && cap <= 6)
+cap = 6
+cap_ok:
+gotoif(cov_ok, snap_valid == 1 && t_oven >= 1 && t_assembler >= 1 && t_refinery >= 1 && t_crusher >= 1 && t_cutter >= 1 && t_presser >= 1 && t_mixer >= 1 && t_shaper >= 1 && t_boiler >= 1 && t_belt >= 1)
+selector_state = 2
+goto(99)
+cov_ok:
+gotoif(need_pick, locked_id < 1 || locked_id > 10)
+cur_t = t_oven
+gotoif(chk_cap, locked_id == 1)
+cur_t = t_assembler
+gotoif(chk_cap, locked_id == 2)
+cur_t = t_refinery
+gotoif(chk_cap, locked_id == 3)
+cur_t = t_crusher
+gotoif(chk_cap, locked_id == 4)
+cur_t = t_cutter
+gotoif(chk_cap, locked_id == 5)
+cur_t = t_presser
+gotoif(chk_cap, locked_id == 6)
+cur_t = t_mixer
+gotoif(chk_cap, locked_id == 7)
+cur_t = t_shaper
+gotoif(chk_cap, locked_id == 8)
+cur_t = t_boiler
+gotoif(chk_cap, locked_id == 9)
+cur_t = t_belt
+chk_cap:
+gotoif(unlock, cur_t >= cap)
+locked_tier = cur_t + 1
+selector_state = 1
+goto(99)
+unlock:
+locked_id = 0
+locked_tier = 0
+need_pick:
+selector_state = 5

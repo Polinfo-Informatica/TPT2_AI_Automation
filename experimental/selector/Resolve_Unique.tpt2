@@ -1,0 +1,65 @@
+:name Resolve_Unique
+:global int t_oven
+:global int t_assembler
+:global int t_refinery
+:global int t_crusher
+:global int t_cutter
+:global int t_presser
+:global int t_mixer
+:global int t_shaper
+:global int t_boiler
+:global int t_belt
+:global int min_t
+:global int locked_id
+:global int locked_tier
+:global int selector_state
+:local int unique_id
+
+gotoif(done, selector_state != 6)
+unique_id = 0
+
+gotoif(next_1, t_oven != min_t)
+gotoif(done, unique_id != 0)
+unique_id = 1
+next_1:
+gotoif(next_2, t_assembler != min_t)
+gotoif(done, unique_id != 0)
+unique_id = 2
+next_2:
+gotoif(next_3, t_refinery != min_t)
+gotoif(done, unique_id != 0)
+unique_id = 3
+next_3:
+gotoif(next_4, t_crusher != min_t)
+gotoif(done, unique_id != 0)
+unique_id = 4
+next_4:
+gotoif(next_5, t_cutter != min_t)
+gotoif(done, unique_id != 0)
+unique_id = 5
+next_5:
+gotoif(next_6, t_presser != min_t)
+gotoif(done, unique_id != 0)
+unique_id = 6
+next_6:
+gotoif(next_7, t_mixer != min_t)
+gotoif(done, unique_id != 0)
+unique_id = 7
+next_7:
+gotoif(next_8, t_shaper != min_t)
+gotoif(done, unique_id != 0)
+unique_id = 8
+next_8:
+gotoif(next_9, t_boiler != min_t)
+gotoif(done, unique_id != 0)
+unique_id = 9
+next_9:
+gotoif(next_10, t_belt != min_t)
+gotoif(done, unique_id != 0)
+unique_id = 10
+next_10:
+gotoif(done, unique_id == 0)
+locked_id = unique_id
+locked_tier = min_t + 1
+selector_state = 1
+done:

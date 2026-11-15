@@ -1,0 +1,57 @@
+:name Find_Min_Tier
+:global int t_oven
+:global int t_assembler
+:global int t_refinery
+:global int t_crusher
+:global int t_cutter
+:global int t_presser
+:global int t_mixer
+:global int t_shaper
+:global int t_boiler
+:global int t_belt
+:global int target_tier_cap
+:global int min_t
+:global int selector_state
+:local int cap
+gotoif(end_min, selector_state != 5)
+cap = target_tier_cap
+gotoif(init_m, cap >= 2 && cap <= 6)
+cap = 6
+init_m:
+min_t = 99
+gotoif(m2, t_oven >= cap || t_oven >= min_t)
+min_t = t_oven
+m2:
+gotoif(m3, t_assembler >= cap || t_assembler >= min_t)
+min_t = t_assembler
+m3:
+gotoif(m4, t_refinery >= cap || t_refinery >= min_t)
+min_t = t_refinery
+m4:
+gotoif(m5, t_crusher >= cap || t_crusher >= min_t)
+min_t = t_crusher
+m5:
+gotoif(m6, t_cutter >= cap || t_cutter >= min_t)
+min_t = t_cutter
+m6:
+gotoif(m7, t_presser >= cap || t_presser >= min_t)
+min_t = t_presser
+m7:
+gotoif(m8, t_mixer >= cap || t_mixer >= min_t)
+min_t = t_mixer
+m8:
+gotoif(m9, t_shaper >= cap || t_shaper >= min_t)
+min_t = t_shaper
+m9:
+gotoif(m10, t_boiler >= cap || t_boiler >= min_t)
+min_t = t_boiler
+m10:
+gotoif(done_m, t_belt >= cap || t_belt >= min_t)
+min_t = t_belt
+done_m:
+gotoif(all_done, min_t >= cap)
+selector_state = 6
+goto(99)
+all_done:
+selector_state = 4
+end_min:
