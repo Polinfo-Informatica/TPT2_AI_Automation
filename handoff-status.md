@@ -1,6 +1,6 @@
 # Entregas TPT2
 
-Última revisão avaliada: **REV-20261115-05**.
+Última revisão avaliada: **REV-20261115-07**.
 
 ## Seletor corrigido
 
@@ -15,3 +15,14 @@ O candidato foi compartilhado com o Gemini para revisão. `Auto_Mine` e `Read_Ma
 ## Execução do seletor no jogo
 
 Em 15/11/2026, o pacote isolado `TPT2QA` foi importado e executado no TPT2 v1.0.16. Resultado no overlay: `qa_done=8`, `qa_pass=8`, `qa_mask=255`. As entradas de tiers e custos foram controladas pelos casos. Integração com a Factory, atuação do Master e consumo de materiais seguem pendentes. O [pacote de teste](experimental/selector-qa/selector-qa-import.txt) pode ser executado pela tecla **9** com os 16 scripts habilitados.
+
+## REV-20261115-07 — Phase 3a
+
+**Resultado:** revisão estática concluída com bloqueios. O Google Doc contém as cinco fontes (`Toggle_F`, `Plan_Costs`, `Factory_Batch_A`, `Factory_Batch_B`, `Master`) e o `TPT2_ACK` foi confirmado por leitura. Os workers de Mine, leitura de máquinas e seleção são dependências da branch.
+
+- `Read_Machines` publica `read_done` e nove tiers. `Master` não define `snap_valid` nem fornece um tier confirmado para o Belt. `Check_Lock` exige ambos antes de selecionar.
+- `Plan_Costs` marca custos fixos da planilha como válidos. Calcular o próximo upgrade a partir das 50 receitas da branch, com rendimento, tier, estoque, reservas, itens em processamento e pesos de insumos-base. O mapa de chips muda conforme a receita. Assembly T3 usa Basic Chip e T6 usa Advanced Chip.
+- `Factory_Batch_A/B` usam metas genéricas de estoque e rotas incompatíveis para Rubber no Oven e no Cutter segundo a referência da branch. Faltam caminhos para componentes exigidos como Dense Plate, Pipe e Rubber Plate. `Factory_Batch_B` tenta o upgrade sem confirmar os insumos e seta `batch_state = 2` sem verificar aceitação ou tier instalado.
+- `Master` ignora `mine_state = 4` (configuração ausente) e ainda não calcula a janela da Torre. O primeiro passo é isolar e confirmar um lote Ore → Dust no Crusher com leitura de estoque e parada por F.
+
+**Testes pendentes:** compilação e leitura de volta no compilador d0sboots no PC do projeto, despacho e confirmação de lote, troca da máquina e progressão com lock até T6, Belt, esgotamento da Mine, parada por F e tempo da janela da Torre. O PC e o chat local do Gemini estiveram indisponíveis nesta checagem.
