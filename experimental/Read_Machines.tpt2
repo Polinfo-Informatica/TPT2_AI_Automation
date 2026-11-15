@@ -1,0 +1,23 @@
+:name Read_Machines
+:global int t_oven
+:global int t_assembler
+:global int t_refinery
+:global int t_crusher
+:global int t_cutter
+:global int t_presser
+:global int t_mixer
+:global int t_shaper
+:global int t_boiler
+:global int read_done
+
+read_done = 0
+t_oven = machine.tier("oven")
+t_assembler = machine.tier("assembler")
+t_refinery = machine.tier("refinery")
+t_crusher = machine.tier("crusher")
+t_cutter = machine.tier("cutter")
+t_presser = machine.tier("presser")
+t_mixer = machine.tier("mixer")
+t_shaper = machine.tier("shaper")
+t_boiler = machine.tier("boiler")
+read_done = 1
