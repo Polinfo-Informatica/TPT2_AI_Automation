@@ -1,0 +1,77 @@
+{
+  "source": "https://github.com/d0sboots/PerfectTower/blob/main/factory/recipes.tpt2",
+  "sourceScope": "Direct crafting ingredients. An existing machine at the previous tier is listed as an upgrade input.",
+  "ingredientIds": "upstream recipe aliases",
+  "machines": {
+    "oven": {
+      "2": [{"item":"plate","tier":2,"quantity":6},{"item":"insul_cable","tier":2,"quantity":2},{"item":"oven","tier":1,"quantity":1}],
+      "3": [{"item":"plate","tier":3,"quantity":8},{"item":"insul_cable","tier":3,"quantity":3},{"item":"oven","tier":2,"quantity":1}],
+      "4": [{"item":"plate","tier":4,"quantity":8},{"item":"insul_cable","tier":4,"quantity":3},{"item":"oven","tier":3,"quantity":1}],
+      "5": [{"item":"plate","tier":5,"quantity":8},{"item":"insul_cable","tier":5,"quantity":3},{"item":"oven","tier":4,"quantity":1}],
+      "6": [{"item":"plate","tier":6,"quantity":8},{"item":"insul_cable","tier":6,"quantity":4},{"item":"block","tier":6,"quantity":2},{"item":"oven","tier":5,"quantity":1}]
+    },
+    "assembler": {
+      "2": [{"item":"pipe","tier":2,"quantity":1},{"item":"dense_plate","tier":2,"quantity":5},{"item":"motor","tier":2,"quantity":1},{"item":"chip","tier":1,"quantity":1},{"item":"assembly","tier":1,"quantity":1}],
+      "3": [{"item":"pipe","tier":3,"quantity":1},{"item":"dense_plate","tier":3,"quantity":8},{"item":"motor","tier":3,"quantity":1},{"item":"chip","tier":1,"quantity":1},{"item":"assembly","tier":2,"quantity":1}],
+      "4": [{"item":"pipe","tier":4,"quantity":1},{"item":"dense_plate","tier":4,"quantity":8},{"item":"motor","tier":4,"quantity":1},{"item":"chip","tier":2,"quantity":1},{"item":"assembly","tier":3,"quantity":1}],
+      "5": [{"item":"pipe","tier":5,"quantity":1},{"item":"dense_plate","tier":5,"quantity":8},{"item":"motor","tier":5,"quantity":1},{"item":"chip","tier":2,"quantity":1},{"item":"assembly","tier":4,"quantity":1}],
+      "6": [{"item":"pipe","tier":6,"quantity":2},{"item":"dense_plate","tier":6,"quantity":10},{"item":"motor","tier":6,"quantity":1},{"item":"chip","tier":2,"quantity":1},{"item":"assembly","tier":5,"quantity":1}]
+    },
+    "refinery": {
+      "2": [{"item":"dense_plate","tier":2,"quantity":4},{"item":"motor","tier":2,"quantity":1},{"item":"ring","tier":2,"quantity":2},{"item":"pump","tier":2,"quantity":2},{"item":"chip","tier":1,"quantity":2},{"item":"refiner","tier":1,"quantity":1}],
+      "3": [{"item":"dense_plate","tier":3,"quantity":4},{"item":"motor","tier":3,"quantity":1},{"item":"ring","tier":3,"quantity":2},{"item":"pump","tier":3,"quantity":2},{"item":"chip","tier":2,"quantity":2},{"item":"refiner","tier":2,"quantity":1}],
+      "4": [{"item":"dense_plate","tier":4,"quantity":4},{"item":"motor","tier":4,"quantity":1},{"item":"ring","tier":4,"quantity":2},{"item":"pump","tier":4,"quantity":2},{"item":"chip","tier":2,"quantity":2},{"item":"refiner","tier":3,"quantity":1}],
+      "5": [{"item":"dense_plate","tier":5,"quantity":4},{"item":"motor","tier":5,"quantity":2},{"item":"ring","tier":5,"quantity":3},{"item":"pump","tier":5,"quantity":3},{"item":"chip","tier":2,"quantity":2},{"item":"refiner","tier":4,"quantity":1}],
+      "6": [{"item":"dense_plate","tier":6,"quantity":4},{"item":"motor","tier":6,"quantity":2},{"item":"ring","tier":6,"quantity":3},{"item":"pump","tier":6,"quantity":3},{"item":"chip","tier":2,"quantity":2},{"item":"refiner","tier":5,"quantity":1}]
+    },
+    "crusher": {
+      "2": [{"item":"dense_plate","tier":2,"quantity":8},{"item":"motor","tier":2,"quantity":1},{"item":"chip","tier":1,"quantity":2},{"item":"crusher","tier":1,"quantity":1}],
+      "3": [{"item":"dense_plate","tier":3,"quantity":8},{"item":"motor","tier":3,"quantity":1},{"item":"chip","tier":1,"quantity":2},{"item":"crusher","tier":2,"quantity":1}],
+      "4": [{"item":"dense_plate","tier":4,"quantity":8},{"item":"motor","tier":4,"quantity":1},{"item":"chip","tier":2,"quantity":2},{"item":"crusher","tier":3,"quantity":1}],
+      "5": [{"item":"dense_plate","tier":5,"quantity":8},{"item":"motor","tier":5,"quantity":1},{"item":"chip","tier":2,"quantity":2},{"item":"crusher","tier":4,"quantity":1}],
+      "6": [{"item":"dense_plate","tier":6,"quantity":8},{"item":"motor","tier":6,"quantity":1},{"item":"chip","tier":2,"quantity":2},{"item":"crusher","tier":5,"quantity":1}]
+    },
+    "cutter": {
+      "2": [{"item":"plate","tier":2,"quantity":2},{"item":"dense_plate","tier":2,"quantity":3},{"item":"motor","tier":2,"quantity":4},{"item":"cutter","tier":1,"quantity":1}],
+      "3": [{"item":"plate","tier":3,"quantity":2},{"item":"dense_plate","tier":3,"quantity":3},{"item":"motor","tier":3,"quantity":4},{"item":"cutter","tier":2,"quantity":1}],
+      "4": [{"item":"plate","tier":4,"quantity":2},{"item":"dense_plate","tier":4,"quantity":3},{"item":"motor","tier":4,"quantity":4},{"item":"cutter","tier":3,"quantity":1}],
+      "5": [{"item":"plate","tier":5,"quantity":2},{"item":"dense_plate","tier":5,"quantity":3},{"item":"motor","tier":5,"quantity":4},{"item":"cutter","tier":4,"quantity":1}],
+      "6": [{"item":"plate","tier":6,"quantity":2},{"item":"dense_plate","tier":6,"quantity":4},{"item":"motor","tier":6,"quantity":5},{"item":"cutter","tier":5,"quantity":1}]
+    },
+    "presser": {
+      "2": [{"item":"plate","tier":2,"quantity":5},{"item":"wire","tier":2,"quantity":1},{"item":"chip","tier":1,"quantity":2},{"item":"presser","tier":1,"quantity":1}],
+      "3": [{"item":"plate","tier":3,"quantity":7},{"item":"wire","tier":3,"quantity":2},{"item":"chip","tier":1,"quantity":2},{"item":"presser","tier":2,"quantity":1}],
+      "4": [{"item":"plate","tier":4,"quantity":7},{"item":"wire","tier":4,"quantity":2},{"item":"chip","tier":2,"quantity":2},{"item":"presser","tier":3,"quantity":1}],
+      "5": [{"item":"plate","tier":5,"quantity":7},{"item":"wire","tier":5,"quantity":2},{"item":"block","tier":5,"quantity":4},{"item":"chip","tier":2,"quantity":2},{"item":"presser","tier":4,"quantity":1}],
+      "6": [{"item":"plate","tier":6,"quantity":9},{"item":"wire","tier":6,"quantity":3},{"item":"block","tier":6,"quantity":5},{"item":"chip","tier":2,"quantity":2},{"item":"presser","tier":5,"quantity":1}]
+    },
+    "mixer": {
+      "2": [{"item":"dense_plate","tier":2,"quantity":4},{"item":"motor","tier":2,"quantity":2},{"item":"pump","tier":2,"quantity":1},{"item":"chip","tier":1,"quantity":1},{"item":"mixer","tier":1,"quantity":1}],
+      "3": [{"item":"dense_plate","tier":3,"quantity":4},{"item":"motor","tier":3,"quantity":2},{"item":"pump","tier":3,"quantity":1},{"item":"chip","tier":1,"quantity":1},{"item":"mixer","tier":2,"quantity":1}],
+      "4": [{"item":"dense_plate","tier":4,"quantity":5},{"item":"motor","tier":4,"quantity":2},{"item":"pump","tier":4,"quantity":2},{"item":"chip","tier":2,"quantity":2},{"item":"mixer","tier":3,"quantity":1}],
+      "5": [{"item":"dense_plate","tier":5,"quantity":5},{"item":"motor","tier":5,"quantity":2},{"item":"pump","tier":5,"quantity":2},{"item":"chip","tier":2,"quantity":2},{"item":"mixer","tier":4,"quantity":1}],
+      "6": [{"item":"dense_plate","tier":6,"quantity":6},{"item":"motor","tier":6,"quantity":2},{"item":"pump","tier":6,"quantity":3},{"item":"chip","tier":2,"quantity":3},{"item":"mixer","tier":5,"quantity":1}]
+    },
+    "shaper": {
+      "2": [{"item":"plate","tier":2,"quantity":4},{"item":"screw","tier":2,"quantity":2},{"item":"block","tier":2,"quantity":2},{"item":"motor","tier":2,"quantity":2},{"item":"insul_cable","tier":2,"quantity":1},{"item":"shaper","tier":1,"quantity":1}],
+      "3": [{"item":"plate","tier":3,"quantity":4},{"item":"screw","tier":3,"quantity":2},{"item":"block","tier":3,"quantity":2},{"item":"motor","tier":3,"quantity":2},{"item":"insul_cable","tier":3,"quantity":1},{"item":"shaper","tier":2,"quantity":1}],
+      "4": [{"item":"plate","tier":4,"quantity":4},{"item":"screw","tier":4,"quantity":2},{"item":"block","tier":4,"quantity":2},{"item":"motor","tier":4,"quantity":2},{"item":"insul_cable","tier":4,"quantity":1},{"item":"shaper","tier":3,"quantity":1}],
+      "5": [{"item":"plate","tier":5,"quantity":4},{"item":"screw","tier":5,"quantity":2},{"item":"block","tier":5,"quantity":2},{"item":"motor","tier":5,"quantity":2},{"item":"insul_cable","tier":5,"quantity":1},{"item":"shaper","tier":4,"quantity":1}],
+      "6": [{"item":"plate","tier":6,"quantity":4},{"item":"screw","tier":6,"quantity":3},{"item":"block","tier":6,"quantity":3},{"item":"motor","tier":6,"quantity":2},{"item":"insul_cable","tier":6,"quantity":2},{"item":"shaper","tier":5,"quantity":1}]
+    },
+    "boiler": {
+      "2": [{"item":"wire","tier":2,"quantity":2},{"item":"dense_plate","tier":2,"quantity":2},{"item":"block","tier":2,"quantity":7},{"item":"motor","tier":2,"quantity":1},{"item":"screw","tier":2,"quantity":2},{"item":"pump","tier":2,"quantity":1},{"item":"boiler","tier":1,"quantity":1}],
+      "3": [{"item":"wire","tier":3,"quantity":2},{"item":"dense_plate","tier":3,"quantity":2},{"item":"block","tier":3,"quantity":7},{"item":"motor","tier":3,"quantity":1},{"item":"screw","tier":3,"quantity":2},{"item":"pump","tier":3,"quantity":1},{"item":"boiler","tier":2,"quantity":1}],
+      "4": [{"item":"wire","tier":4,"quantity":3},{"item":"dense_plate","tier":4,"quantity":3},{"item":"block","tier":4,"quantity":8},{"item":"motor","tier":4,"quantity":2},{"item":"screw","tier":4,"quantity":2},{"item":"pump","tier":4,"quantity":1},{"item":"boiler","tier":3,"quantity":1}],
+      "5": [{"item":"wire","tier":5,"quantity":3},{"item":"dense_plate","tier":5,"quantity":3},{"item":"block","tier":5,"quantity":8},{"item":"motor","tier":5,"quantity":2},{"item":"screw","tier":5,"quantity":2},{"item":"pump","tier":5,"quantity":1},{"item":"boiler","tier":4,"quantity":1}],
+      "6": [{"item":"wire","tier":6,"quantity":3},{"item":"dense_plate","tier":6,"quantity":3},{"item":"block","tier":6,"quantity":8},{"item":"motor","tier":6,"quantity":2},{"item":"screw","tier":6,"quantity":2},{"item":"pump","tier":6,"quantity":1},{"item":"boiler","tier":5,"quantity":1}]
+    },
+    "transportbelt": {
+      "2": [{"item":"rubber","tier":1,"quantity":4},{"item":"motor","tier":2,"quantity":3},{"item":"insul_cable","tier":2,"quantity":4},{"item":"belt","tier":1,"quantity":1}],
+      "3": [{"item":"rubber","tier":1,"quantity":4},{"item":"motor","tier":3,"quantity":3},{"item":"insul_cable","tier":3,"quantity":4},{"item":"belt","tier":2,"quantity":1}],
+      "4": [{"item":"rubber","tier":1,"quantity":4},{"item":"motor","tier":4,"quantity":3},{"item":"insul_cable","tier":4,"quantity":4},{"item":"chip","tier":1,"quantity":4},{"item":"belt","tier":3,"quantity":1}],
+      "5": [{"item":"rubber","tier":1,"quantity":4},{"item":"motor","tier":5,"quantity":3},{"item":"insul_cable","tier":5,"quantity":4},{"item":"chip","tier":2,"quantity":4},{"item":"belt","tier":4,"quantity":1}],
+      "6": [{"item":"rubber_plate","tier":1,"quantity":4},{"item":"motor","tier":6,"quantity":3},{"item":"insul_cable","tier":6,"quantity":4},{"item":"chip","tier":2,"quantity":4},{"item":"belt","tier":5,"quantity":1}]
+    }
+  }
+}
