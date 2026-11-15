@@ -1,0 +1,15 @@
+:name TPT2QA:Case_cap
+:global int qa_selector_state
+:global int qa_locked_id
+:global int qa_locked_tier
+:global int qa_done
+:global int qa_mask
+:global int qa_pass
+
+executesync("TPT2QA:Reset")
+executesync("TPT2QA:Run_Selector")
+qa_done = qa_done + 1
+gotoif(done, qa_selector_state != 4 || qa_locked_id != 0 || qa_locked_tier != 0)
+qa_pass = qa_pass + 1
+qa_mask = qa_mask + 64
+done:

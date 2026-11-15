@@ -1,0 +1,20 @@
+:name TPT2QA:Case_release
+:global int qa_t_oven
+:global int qa_t_assembler
+:global int qa_locked_id
+:global int qa_selector_state
+:global int qa_locked_tier
+:global int qa_done
+:global int qa_mask
+:global int qa_pass
+
+executesync("TPT2QA:Reset")
+qa_t_oven = 6
+qa_t_assembler = 1
+qa_locked_id = 1
+executesync("TPT2QA:Run_Selector")
+qa_done = qa_done + 1
+gotoif(done, qa_selector_state != 1 || qa_locked_id != 2 || qa_locked_tier != 2)
+qa_pass = qa_pass + 1
+qa_mask = qa_mask + 32
+done:

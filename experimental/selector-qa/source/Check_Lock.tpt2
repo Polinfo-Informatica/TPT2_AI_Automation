@@ -1,0 +1,58 @@
+:name TPT2QA:Check_Lock
+:global int qa_t_oven
+:global int qa_t_assembler
+:global int qa_t_refinery
+:global int qa_t_crusher
+:global int qa_t_cutter
+:global int qa_t_presser
+:global int qa_t_mixer
+:global int qa_t_shaper
+:global int qa_t_boiler
+:global int qa_t_belt
+:global int qa_snap_valid
+:global int qa_target_tier_cap
+:global int qa_locked_id
+:global int qa_locked_tier
+:global int qa_selector_state
+:local int cap
+:local int cur_t
+; qa_selector_state: 0 = running, 1 = locked_ready, 2 = missing_snapshot_or_coverage, 3 = missing_planner_cost, 4 = all_targets_met, 5 = need_min_tier, 6 = need_tie_a, 7 = need_tie_b
+qa_selector_state = 0
+cap = qa_target_tier_cap
+gotoif(cap_ok, cap >= 2 && cap <= 6)
+cap = 6
+cap_ok:
+gotoif(cov_ok, qa_snap_valid == 1 && qa_t_oven >= 1 && qa_t_assembler >= 1 && qa_t_refinery >= 1 && qa_t_crusher >= 1 && qa_t_cutter >= 1 && qa_t_presser >= 1 && qa_t_mixer >= 1 && qa_t_shaper >= 1 && qa_t_boiler >= 1 && qa_t_belt >= 1)
+qa_selector_state = 2
+goto(99)
+cov_ok:
+gotoif(need_pick, qa_locked_id < 1 || qa_locked_id > 10)
+cur_t = qa_t_oven
+gotoif(chk_cap, qa_locked_id == 1)
+cur_t = qa_t_assembler
+gotoif(chk_cap, qa_locked_id == 2)
+cur_t = qa_t_refinery
+gotoif(chk_cap, qa_locked_id == 3)
+cur_t = qa_t_crusher
+gotoif(chk_cap, qa_locked_id == 4)
+cur_t = qa_t_cutter
+gotoif(chk_cap, qa_locked_id == 5)
+cur_t = qa_t_presser
+gotoif(chk_cap, qa_locked_id == 6)
+cur_t = qa_t_mixer
+gotoif(chk_cap, qa_locked_id == 7)
+cur_t = qa_t_shaper
+gotoif(chk_cap, qa_locked_id == 8)
+cur_t = qa_t_boiler
+gotoif(chk_cap, qa_locked_id == 9)
+cur_t = qa_t_belt
+chk_cap:
+gotoif(unlock, cur_t >= cap)
+qa_locked_tier = cur_t + 1
+qa_selector_state = 1
+goto(99)
+unlock:
+qa_locked_id = 0
+qa_locked_tier = 0
+need_pick:
+qa_selector_state = 5

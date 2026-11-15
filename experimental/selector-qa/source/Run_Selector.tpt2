@@ -1,0 +1,13 @@
+:name TPT2QA:Run_Selector
+:global int qa_selector_state
+
+executesync("TPT2QA:Check_Lock")
+gotoif(done, qa_selector_state != 5)
+executesync("TPT2QA:Find_Min_Tier")
+gotoif(done, qa_selector_state != 6)
+executesync("TPT2QA:Resolve_Unique")
+gotoif(done, qa_selector_state != 6)
+executesync("TPT2QA:Tie_Break_A")
+gotoif(done, qa_selector_state != 7)
+executesync("TPT2QA:Tie_Break_B")
+done:

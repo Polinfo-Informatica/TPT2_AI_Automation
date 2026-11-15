@@ -1,0 +1,61 @@
+:name TPT2QA:Tie_Break_B
+:global int qa_t_presser
+:global int qa_t_mixer
+:global int qa_t_shaper
+:global int qa_t_boiler
+:global int qa_t_belt
+:global int qa_cost_6
+:global int qa_cost_7
+:global int qa_cost_8
+:global int qa_cost_9
+:global int qa_cost_10
+:global int qa_cost_ok_6
+:global int qa_cost_ok_7
+:global int qa_cost_ok_8
+:global int qa_cost_ok_9
+:global int qa_cost_ok_10
+:global int qa_min_t
+:global int qa_cand_id
+:global int qa_cand_cost
+:global int qa_locked_id
+:global int qa_locked_tier
+:global int qa_selector_state
+gotoif(end_tb, qa_selector_state != 7)
+gotoif(c7, qa_t_presser != qa_min_t)
+gotoif(err_cost, qa_cost_ok_6 != 1)
+gotoif(c7, qa_cand_id != 0 && qa_cost_6 >= qa_cand_cost)
+qa_cand_id = 6
+qa_cand_cost = qa_cost_6
+c7:
+gotoif(c8, qa_t_mixer != qa_min_t)
+gotoif(err_cost, qa_cost_ok_7 != 1)
+gotoif(c8, qa_cand_id != 0 && qa_cost_7 >= qa_cand_cost)
+qa_cand_id = 7
+qa_cand_cost = qa_cost_7
+c8:
+gotoif(c9, qa_t_shaper != qa_min_t)
+gotoif(err_cost, qa_cost_ok_8 != 1)
+gotoif(c9, qa_cand_id != 0 && qa_cost_8 >= qa_cand_cost)
+qa_cand_id = 8
+qa_cand_cost = qa_cost_8
+c9:
+gotoif(c10, qa_t_boiler != qa_min_t)
+gotoif(err_cost, qa_cost_ok_9 != 1)
+gotoif(c10, qa_cand_id != 0 && qa_cost_9 >= qa_cand_cost)
+qa_cand_id = 9
+qa_cand_cost = qa_cost_9
+c10:
+gotoif(finalize, qa_t_belt != qa_min_t)
+gotoif(err_cost, qa_cost_ok_10 != 1)
+gotoif(finalize, qa_cand_id != 0 && qa_cost_10 >= qa_cand_cost)
+qa_cand_id = 10
+qa_cand_cost = qa_cost_10
+finalize:
+gotoif(err_cost, qa_cand_id == 0)
+qa_locked_id = qa_cand_id
+qa_locked_tier = qa_min_t + 1
+qa_selector_state = 1
+goto(99)
+err_cost:
+qa_selector_state = 3
+end_tb:

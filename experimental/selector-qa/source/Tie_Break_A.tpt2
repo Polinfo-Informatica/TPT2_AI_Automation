@@ -1,0 +1,58 @@
+:name TPT2QA:Tie_Break_A
+:global int qa_t_oven
+:global int qa_t_assembler
+:global int qa_t_refinery
+:global int qa_t_crusher
+:global int qa_t_cutter
+:global int qa_cost_1
+:global int qa_cost_2
+:global int qa_cost_3
+:global int qa_cost_4
+:global int qa_cost_5
+:global int qa_cost_ok_1
+:global int qa_cost_ok_2
+:global int qa_cost_ok_3
+:global int qa_cost_ok_4
+:global int qa_cost_ok_5
+:global int qa_min_t
+:global int qa_cand_id
+:global int qa_cand_cost
+:global int qa_selector_state
+gotoif(end_ta, qa_selector_state != 6)
+qa_cand_id = 0
+qa_cand_cost = 999999999
+gotoif(c2, qa_t_oven != qa_min_t)
+gotoif(err_cost, qa_cost_ok_1 != 1)
+gotoif(c2, qa_cand_id != 0 && qa_cost_1 >= qa_cand_cost)
+qa_cand_id = 1
+qa_cand_cost = qa_cost_1
+c2:
+gotoif(c3, qa_t_assembler != qa_min_t)
+gotoif(err_cost, qa_cost_ok_2 != 1)
+gotoif(c3, qa_cand_id != 0 && qa_cost_2 >= qa_cand_cost)
+qa_cand_id = 2
+qa_cand_cost = qa_cost_2
+c3:
+gotoif(c4, qa_t_refinery != qa_min_t)
+gotoif(err_cost, qa_cost_ok_3 != 1)
+gotoif(c4, qa_cand_id != 0 && qa_cost_3 >= qa_cand_cost)
+qa_cand_id = 3
+qa_cand_cost = qa_cost_3
+c4:
+gotoif(c5, qa_t_crusher != qa_min_t)
+gotoif(err_cost, qa_cost_ok_4 != 1)
+gotoif(c5, qa_cand_id != 0 && qa_cost_4 >= qa_cand_cost)
+qa_cand_id = 4
+qa_cand_cost = qa_cost_4
+c5:
+gotoif(done_ta, qa_t_cutter != qa_min_t)
+gotoif(err_cost, qa_cost_ok_5 != 1)
+gotoif(done_ta, qa_cand_id != 0 && qa_cost_5 >= qa_cand_cost)
+qa_cand_id = 5
+qa_cand_cost = qa_cost_5
+done_ta:
+qa_selector_state = 7
+goto(99)
+err_cost:
+qa_selector_state = 3
+end_ta:

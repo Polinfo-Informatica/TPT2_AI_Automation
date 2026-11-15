@@ -11,3 +11,7 @@ O Codex preparou um candidato para a revisão 06 a partir da entrega 05. O pacot
 - `Run_Selector` recebe um snapshot válido e, quando houver empate, os custos válidos da mesma rodada. O chamador deve serializar a execução e fornecer os dados antes da seleção. O pacote não emite comandos de craft/produce.
 
 O candidato foi compartilhado com o Gemini para revisão. `Auto_Mine` e `Read_Machines` continuam publicados como candidatos experimentais. Permanecem pendentes a ligação ao Master, a confirmação do tier do Belt, o planejador de custos por receita, a execução no jogo v1.0.16 e a cronometragem da Torre.
+
+## Execução do seletor no jogo
+
+Em 15/11/2026, o pacote isolado `TPT2QA` foi importado e executado no TPT2 v1.0.16. Resultado no overlay: `qa_done=8`, `qa_pass=8`, `qa_mask=255`. As entradas de tiers e custos foram controladas pelos casos. Integração com a Factory, atuação do Master e consumo de materiais seguem pendentes. O [pacote de teste](experimental/selector-qa/selector-qa-import.txt) pode ser executado pela tecla **9** com os 16 scripts habilitados.

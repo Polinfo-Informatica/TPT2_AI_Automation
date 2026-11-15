@@ -1,0 +1,65 @@
+:name TPT2QA:Resolve_Unique
+:global int qa_t_oven
+:global int qa_t_assembler
+:global int qa_t_refinery
+:global int qa_t_crusher
+:global int qa_t_cutter
+:global int qa_t_presser
+:global int qa_t_mixer
+:global int qa_t_shaper
+:global int qa_t_boiler
+:global int qa_t_belt
+:global int qa_min_t
+:global int qa_locked_id
+:global int qa_locked_tier
+:global int qa_selector_state
+:local int unique_id
+
+gotoif(done, qa_selector_state != 6)
+unique_id = 0
+
+gotoif(next_1, qa_t_oven != qa_min_t)
+gotoif(done, unique_id != 0)
+unique_id = 1
+next_1:
+gotoif(next_2, qa_t_assembler != qa_min_t)
+gotoif(done, unique_id != 0)
+unique_id = 2
+next_2:
+gotoif(next_3, qa_t_refinery != qa_min_t)
+gotoif(done, unique_id != 0)
+unique_id = 3
+next_3:
+gotoif(next_4, qa_t_crusher != qa_min_t)
+gotoif(done, unique_id != 0)
+unique_id = 4
+next_4:
+gotoif(next_5, qa_t_cutter != qa_min_t)
+gotoif(done, unique_id != 0)
+unique_id = 5
+next_5:
+gotoif(next_6, qa_t_presser != qa_min_t)
+gotoif(done, unique_id != 0)
+unique_id = 6
+next_6:
+gotoif(next_7, qa_t_mixer != qa_min_t)
+gotoif(done, unique_id != 0)
+unique_id = 7
+next_7:
+gotoif(next_8, qa_t_shaper != qa_min_t)
+gotoif(done, unique_id != 0)
+unique_id = 8
+next_8:
+gotoif(next_9, qa_t_boiler != qa_min_t)
+gotoif(done, unique_id != 0)
+unique_id = 9
+next_9:
+gotoif(next_10, qa_t_belt != qa_min_t)
+gotoif(done, unique_id != 0)
+unique_id = 10
+next_10:
+gotoif(done, unique_id == 0)
+qa_locked_id = unique_id
+qa_locked_tier = qa_min_t + 1
+qa_selector_state = 1
+done:

@@ -1,0 +1,57 @@
+:name TPT2QA:Find_Min_Tier
+:global int qa_t_oven
+:global int qa_t_assembler
+:global int qa_t_refinery
+:global int qa_t_crusher
+:global int qa_t_cutter
+:global int qa_t_presser
+:global int qa_t_mixer
+:global int qa_t_shaper
+:global int qa_t_boiler
+:global int qa_t_belt
+:global int qa_target_tier_cap
+:global int qa_min_t
+:global int qa_selector_state
+:local int cap
+gotoif(end_min, qa_selector_state != 5)
+cap = qa_target_tier_cap
+gotoif(init_m, cap >= 2 && cap <= 6)
+cap = 6
+init_m:
+qa_min_t = 99
+gotoif(m2, qa_t_oven >= cap || qa_t_oven >= qa_min_t)
+qa_min_t = qa_t_oven
+m2:
+gotoif(m3, qa_t_assembler >= cap || qa_t_assembler >= qa_min_t)
+qa_min_t = qa_t_assembler
+m3:
+gotoif(m4, qa_t_refinery >= cap || qa_t_refinery >= qa_min_t)
+qa_min_t = qa_t_refinery
+m4:
+gotoif(m5, qa_t_crusher >= cap || qa_t_crusher >= qa_min_t)
+qa_min_t = qa_t_crusher
+m5:
+gotoif(m6, qa_t_cutter >= cap || qa_t_cutter >= qa_min_t)
+qa_min_t = qa_t_cutter
+m6:
+gotoif(m7, qa_t_presser >= cap || qa_t_presser >= qa_min_t)
+qa_min_t = qa_t_presser
+m7:
+gotoif(m8, qa_t_mixer >= cap || qa_t_mixer >= qa_min_t)
+qa_min_t = qa_t_mixer
+m8:
+gotoif(m9, qa_t_shaper >= cap || qa_t_shaper >= qa_min_t)
+qa_min_t = qa_t_shaper
+m9:
+gotoif(m10, qa_t_boiler >= cap || qa_t_boiler >= qa_min_t)
+qa_min_t = qa_t_boiler
+m10:
+gotoif(done_m, qa_t_belt >= cap || qa_t_belt >= qa_min_t)
+qa_min_t = qa_t_belt
+done_m:
+gotoif(all_done, qa_min_t >= cap)
+qa_selector_state = 6
+goto(99)
+all_done:
+qa_selector_state = 4
+end_min:

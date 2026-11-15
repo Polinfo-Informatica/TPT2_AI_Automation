@@ -1,0 +1,17 @@
+:name TPT2QA:Run_Tests
+:global int qa_done
+:global int qa_pass
+:global int qa_mask
+
+key.9()
+qa_done = 0
+qa_pass = 0
+qa_mask = 0
+executesync("TPT2QA:Case_unique")
+executesync("TPT2QA:Case_belt")
+executesync("TPT2QA:Case_zero")
+executesync("TPT2QA:Case_missing")
+executesync("TPT2QA:Case_snapshot")
+executesync("TPT2QA:Case_release")
+executesync("TPT2QA:Case_cap")
+executesync("TPT2QA:Case_invalid")
