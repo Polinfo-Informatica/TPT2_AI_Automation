@@ -26,3 +26,11 @@ Em 15/11/2026, o pacote isolado `TPT2QA` foi importado e executado no TPT2 v1.0.
 - `Master` ignora `mine_state = 4` (configuração ausente) e ainda não calcula a janela da Torre. O primeiro passo é isolar e confirmar um lote Ore → Dust no Crusher com leitura de estoque e parada por F.
 
 **Testes pendentes:** compilação e leitura de volta no compilador d0sboots no PC do projeto, despacho e confirmação de lote, troca da máquina e progressão com lock até T6, Belt, esgotamento da Mine, parada por F e tempo da janela da Torre. O PC e o chat local do Gemini estiveram indisponíveis nesta checagem.
+
+## 16/11/2026 — primeiro lote real
+
+As cinco fontes da revisão 07 compilam (18, 20, 26, 44 e 23 ações, na ordem do Docs) e passaram pela leitura de volta no d0sboots. Os bloqueios de integração da revisão 07 continuam.
+
+O [pacote isolado do Crusher](experimental/crusher-batch) compilou, foi importado e executado no TPT2 v1.0.16. No Crusher T6, 1 Ore T1 virou 2 Dust T1. A parada por F antes do despacho seguinte encerrou o script sem consumir minério. Interromper um worker executado por `executesync` deixou o chamador preso no primeiro teste; a versão aprovada executa o lote diretamente.
+
+Próxima etapa: ligar Crusher → Oven, confirmar Ingot via inventário e integrar ao Master com parada limpa. O teste do Crusher não instala máquinas.
