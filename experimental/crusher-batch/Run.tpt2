@@ -1,0 +1,49 @@
+:name TPT2Batch:Run
+:global int cr_run
+:global int cr_state
+:global int cr_tier
+:global double cr_before
+:global double cr_after
+:global double cr_ore_before
+:global double cr_ore_after
+:local int tries
+
+key.8()
+gotoif(exit, cr_run != 0 || isopen("factory") == false)
+cr_run = 1
+cr_state = 1
+cr_tier = 1
+gotoif(blocked, factory.machine.active("crusher"))
+find:
+gotoif(blocked, cr_tier > machine.tier("crusher") || cr_tier > 6)
+gotoif(found, count("ore", cr_tier) >= 1.0)
+cr_tier += 1
+goto(find)
+found:
+cr_before = count("dust", cr_tier)
+cr_after = cr_before
+cr_ore_before = count("ore", cr_tier)
+cr_ore_after = cr_ore_before
+wait(4.0)
+gotoif(blocked, cr_run == 0 || isopen("factory") == false || factory.machine.active("crusher") || count("ore", cr_tier) < 1.0)
+produce("ore", cr_tier, 1.0, "crusher")
+cr_state = 2
+tries = 0
+poll:
+wait(0.25)
+gotoif(blocked, cr_run == 0 || isopen("factory") == false)
+cr_after = count("dust", cr_tier)
+cr_ore_after = count("ore", cr_tier)
+gotoif(ok, cr_after > cr_before && cr_ore_after == cr_ore_before - 1.0)
+tries += 1
+gotoif(poll, tries < 120)
+cr_state = 4
+goto(done)
+ok:
+cr_state = 3
+goto(done)
+blocked:
+cr_state = 6
+done:
+cr_run = 0
+exit:
