@@ -1,0 +1,8 @@
+:name TPT2Smelt:Stop
+:global int sm_state
+
+key.f()
+gotoif(done, sm_state < 1 || sm_state > 3)
+sm_state = 5
+stop("TPT2Smelt:Run")
+done:
