@@ -1,0 +1,15 @@
+:name TPT2Upgrade:Config
+:budget_cap max
+:global int uf_scope
+:global int uf_base
+:global int uf_cap
+:global int uf_selected
+
+; Limit actual execution to T6 until the save can support higher tiers.
+; Set cap to an unlocked tier up to T10 before exporting.
+uf_cap = 6
+gotoif(ready, uf_scope == 0)
+uf_selected = 0
+ready:
+uf_scope = 0
+uf_base = 0

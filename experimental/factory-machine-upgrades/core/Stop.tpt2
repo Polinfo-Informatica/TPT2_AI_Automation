@@ -1,0 +1,7 @@
+:name TPT2Upgrade:Stop
+:budget_cap max
+:global int uf_continue
+
+
+key.f()
+uf_continue = 0

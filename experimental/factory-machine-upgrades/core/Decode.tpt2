@@ -1,0 +1,28 @@
+:name TPT2Upgrade:Decode
+:budget_cap max
+:global string uf_data
+:global int uf_cursor
+:global string uf_id
+:global int uf_level
+:global int uf_op
+:global double uf_yield
+:global string uf_job
+:global int uf_edges
+:global string uf_row
+:local string ids
+:local string jobs
+:local int itemIndex
+:local int machineIndex
+
+; Fixed record fields: item, tier, operation, yield, machine, edge count, edges.
+ids = "12machine.oven            17machine.assembler       16machine.refinery        15machine.crusher         14machine.cutter          15machine.presser         13machine.mixer           21machine.transportbelt   14machine.shaper          14machine.boiler          04chip                    15cable.insulated         11plate.stack             05motor                   04pump                    06hammer                  05block                   05ingot                   03ore                     06rubber                  04lump                    04dust                    05plate                   11plate.dense             11block.dense             12plate.rubber            03rod                     04pipe                    04ring                    05cable                   13plate.circuit           04wire                    05screw                   07circuit                 "
+jobs = "00                        04oven                    09assembler               08refinery                07crusher                 06cutter                  07presser                 05mixer                   13transportbelt           06shaper                  06boiler                  "
+uf_row = sub(uf_data, uf_cursor * 33, 33)
+itemIndex = s2i(sub(uf_row, 0, 2), 0)
+machineIndex = s2i(sub(uf_row, 6, 2), 0)
+uf_id = sub(ids, itemIndex * 26 + 2, s2i(sub(ids, itemIndex * 26, 2), 0))
+uf_job = sub(jobs, machineIndex * 26 + 2, s2i(sub(jobs, machineIndex * 26, 2), 0))
+uf_level = s2i(sub(uf_row, 2, 2), 0)
+uf_op = s2i(sub(uf_row, 4, 1), 0)
+uf_yield = s2d(sub(uf_row, 5, 1), 1.0)
+uf_edges = s2i(sub(uf_row, 8, 1), 0)

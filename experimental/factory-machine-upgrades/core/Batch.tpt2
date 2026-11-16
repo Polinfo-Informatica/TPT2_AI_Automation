@@ -1,0 +1,39 @@
+:name TPT2Upgrade:Batch
+:budget_cap max
+:global int uf_continue
+:global int uf_state
+:global string uf_id
+:global int uf_level
+:global double uf_yield
+:global string uf_job
+:local double before
+:local double expect
+:local int polls
+:local string source
+:local int sourceTier
+:local double batch
+
+; Inputs and expected outputs are set by Build using local variables only there.
+uf_state = 4
+source = global.string.get("uf_input")
+sourceTier = global.int.get("uf_input_tier")
+batch = global.double.get("uf_amount")
+gotoif(end, uf_continue == 0 || isopen("factory") == false || batch <= 0.0)
+gotoif(end, count(source, sourceTier) < batch || active(uf_job) || machine.item(uf_job) != "")
+before = count(uf_id, uf_level)
+expect = before + batch * uf_yield
+gotoif(end, uf_continue == 0 || isopen("factory") == false)
+produce(source, sourceTier, batch, uf_job)
+waitframe()
+gotoif(end, count(uf_id, uf_level) < expect && active(uf_job) == false && machine.item(uf_job) == "")
+polls = 0
+verify:
+gotoif(end, uf_continue == 0 || isopen("factory") == false)
+gotoif(ok, count(uf_id, uf_level) >= expect)
+wait(0.25)
+polls += 1
+gotoif(verify, polls < 1200)
+goto(end)
+ok:
+uf_state = 1
+end:

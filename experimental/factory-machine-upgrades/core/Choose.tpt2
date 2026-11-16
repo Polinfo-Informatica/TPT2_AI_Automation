@@ -1,0 +1,86 @@
+:name TPT2Upgrade:Choose
+:budget_cap max
+:global int uf_scope
+:global int uf_cap
+:global int uf_base
+:global int uf_selected
+:global int uf_wanted
+:global int uf_candidate
+:global int uf_goal
+:global int uf_continue
+:global int uf_loaded
+:global int uf_short
+:global double uf_cost
+:global string uf_note
+:local int index
+:local int tier
+:local int lowest
+:local int last
+:local double best
+:local string slots
+:local string names
+:local string slot
+
+slots = "00                        04oven                    09assembler               08refinery                07crusher                 06cutter                  07presser                 05mixer                   13transportbelt           06shaper                  06boiler                  "
+names = "00                        04oven                    08assembly                07refiner                 07crusher                 06cutter                  07presser                 05mixer                   04belt                    06shaper                  06boiler                  "
+index = max(1, uf_scope)
+last = if(uf_scope == 0, 10, uf_scope)
+
+; A selected machine stays selected through the configured cap.
+gotoif(scan_init, uf_selected == 0)
+slot = sub(slots, uf_selected * 26 + 2, s2i(sub(slots, uf_selected * 26, 2), 0))
+tier = machine.tier(slot)
+gotoif(scan_init, tier >= uf_cap)
+uf_candidate = uf_selected
+uf_goal = if(tier == 0, uf_wanted, tier + 1)
+goto(end)
+
+scan_init:
+uf_selected = 0
+uf_candidate = 0
+uf_goal = 0
+lowest = uf_cap
+best = 1.0e99
+scan:
+gotoif(end, uf_continue == 0 || isopen("factory") == false)
+slot = sub(slots, index * 26 + 2, s2i(sub(slots, index * 26, 2), 0))
+tier = machine.tier(slot)
+gotoif(invalid, tier < 0 || tier > 10 || (tier == 0 && uf_base == 0))
+gotoif(next, tier >= uf_cap || tier > lowest)
+gotoif(cost, tier == lowest)
+lowest = tier
+uf_selected = 0
+best = 1.0e99
+
+cost:
+uf_goal = tier + 1
+uf_loaded = 0
+executesync("TPT2Upgrade:" . sub(names, index * 26 + 2, s2i(sub(names, index * 26, 2), 0)) . "_T" . uf_goal)
+gotoif(invalid, uf_loaded == 0)
+executesync("TPT2Upgrade:Plan")
+gotoif(end, uf_continue == 0 || isopen("factory") == false)
+gotoif(next, uf_short != 0 || uf_cost >= best)
+uf_selected = index
+best = uf_cost
+
+next:
+index += 1
+gotoif(scan, index <= last)
+gotoif(complete, lowest == uf_cap)
+gotoif(shortage, uf_selected == 0)
+uf_candidate = uf_selected
+slot = sub(slots, uf_candidate * 26 + 2, s2i(sub(slots, uf_candidate * 26, 2), 0))
+uf_goal = machine.tier(slot) + 1
+goto(end)
+
+invalid:
+uf_selected = 0
+uf_candidate = 0
+uf_note = "Check tier or missing recipe: " . slot
+goto(end)
+shortage:
+uf_note = "Missing materials for installed tier " . lowest
+goto(end)
+complete:
+uf_note = "Configured cap reached"
+end:

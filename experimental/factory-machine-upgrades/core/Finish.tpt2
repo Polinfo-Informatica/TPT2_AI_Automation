@@ -1,0 +1,53 @@
+:name TPT2Upgrade:Finish
+:budget_cap max
+:global int uf_continue
+:global int uf_candidate
+:global int uf_goal
+:global int uf_cursor
+:global string uf_id
+:global int uf_state
+:global string uf_note
+:local string slot
+:local string table
+:local int polls
+:local int previous
+
+uf_state = 4
+table = "00                        04oven                    09assembler               08refinery                07crusher                 06cutter                  07presser                 05mixer                   13transportbelt           06shaper                  06boiler                  "
+slot = sub(table, uf_candidate * 26 + 2, s2i(sub(table, uf_candidate * 26, 2), 0))
+uf_cursor = 0
+executesync("TPT2Upgrade:Decode")
+gotoif(fail, uf_continue == 0 || isopen("factory") == false)
+gotoif(installed, machine.tier(slot) == uf_goal)
+gotoif(install, count(uf_id, uf_goal) >= 1.0)
+previous = uf_goal - 1
+gotoif(craft_machine, previous == 0)
+uf_note = "Move " . uf_id . " T" . previous . " from its slot to inventory"
+polls = 0
+remove:
+gotoif(fail, uf_continue == 0 || isopen("factory") == false)
+gotoif(craft_machine, count(uf_id, previous) >= 1.0 && machine.tier(slot) != previous)
+wait(0.25)
+polls += 1
+gotoif(remove, polls < 1200)
+goto(fail)
+
+craft_machine:
+gotoif(fail, uf_continue == 0 || isopen("factory") == false)
+craft(uf_id, uf_goal, 1.0)
+waitframe()
+gotoif(fail, count(uf_id, uf_goal) < 1.0 && machine.tier(slot) != uf_goal)
+install:
+uf_note = "Install " . uf_id . " T" . uf_goal
+polls = 0
+confirm:
+gotoif(fail, uf_continue == 0 || isopen("factory") == false)
+gotoif(installed, machine.tier(slot) == uf_goal)
+wait(0.25)
+polls += 1
+gotoif(confirm, polls < 1200)
+goto(fail)
+installed:
+uf_state = 2
+uf_note = "Installed " . uf_id . " T" . uf_goal
+fail:

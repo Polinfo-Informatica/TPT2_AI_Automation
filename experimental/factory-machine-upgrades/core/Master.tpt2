@@ -1,0 +1,64 @@
+:name TPT2Upgrade:Master
+:budget_cap max
+:global int uf_scope
+:global int uf_base
+:global int uf_cap
+:global int uf_busy
+:global int uf_continue
+:global int uf_candidate
+:global int uf_goal
+:global int uf_wanted
+:global int uf_loaded
+:global int uf_short
+:global int uf_state
+:global string uf_note
+:global int uf_selected
+:local string names
+
+key.j()
+gotoif(end, uf_busy == 1 || isopen("factory") == false)
+uf_busy = 1
+uf_continue = 1
+uf_note = "Factory planning"
+wait(0.5)
+gotoif(exit, uf_continue == 0)
+executesync("TPT2Upgrade:Config")
+names = "00                        04oven                    08assembly                07refiner                 07crusher                 06cutter                  07presser                 05mixer                   04belt                    06shaper                  06boiler                  "
+
+cycle:
+gotoif(exit, uf_continue == 0 || isopen("factory") == false)
+gotoif(wait_idle, active("oven") || active("assembler") || active("refinery") || active("crusher") || active("cutter") || active("presser") || active("mixer") || active("shaper") || active("boiler"))
+executesync("TPT2Upgrade:Choose")
+gotoif(exit, uf_candidate == 0 || uf_continue == 0 || uf_goal < 1 || uf_goal > uf_cap)
+uf_wanted = uf_goal
+uf_loaded = 0
+executesync("TPT2Upgrade:" . sub(names, uf_candidate * 26 + 2, s2i(sub(names, uf_candidate * 26, 2), 0)) . "_T" . uf_goal)
+gotoif(missing, uf_loaded == 0)
+executesync("TPT2Upgrade:Plan")
+gotoif(exit, uf_continue == 0 || isopen("factory") == false)
+gotoif(shortage, uf_short != 0)
+executesync("TPT2Upgrade:Build")
+gotoif(failed, uf_state != 1)
+executesync("TPT2Upgrade:Finish")
+gotoif(exit, uf_state != 2)
+goto(cycle)
+
+wait_idle:
+uf_note = "Waiting for Factory machines to finish current jobs"
+wait(0.25)
+goto(cycle)
+
+missing:
+uf_note = "Missing upgrade script"
+goto(exit)
+shortage:
+uf_note = "Missing materials for selected target T" . uf_goal
+goto(exit)
+failed:
+uf_note = "Production interrupted or a batch failed to complete"
+exit:
+gotoif(cleanup, uf_continue != 0)
+uf_note = "Stopped"
+cleanup:
+uf_busy = 0
+end:

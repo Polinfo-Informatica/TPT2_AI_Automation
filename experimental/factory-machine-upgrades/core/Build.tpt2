@@ -1,0 +1,76 @@
+:name TPT2Upgrade:Build
+:budget_cap max
+:global int uf_continue
+:global int uf_length
+:global int uf_cursor
+:global string uf_id
+:global int uf_level
+:global int uf_op
+:global double uf_yield
+:global string uf_job
+:global string uf_row
+:global int uf_state
+:local double batches
+:local double before
+:local double ore
+:local double lumps
+:local int saved
+
+; Reverse the demand pass so prerequisites precede their consumers.
+uf_state = 1
+uf_cursor = uf_length - 1
+node:
+gotoif(failed, uf_continue == 0 || isopen("factory") == false)
+gotoif(done, uf_cursor <= 0)
+batches = global.double.get("uf_jobs" . uf_cursor)
+gotoif(next, batches <= 0.0)
+executesync("TPT2Upgrade:Decode")
+gotoif(dust, uf_op == 3)
+gotoif(produce_part, uf_op == 2)
+before = count(uf_id, uf_level)
+gotoif(failed, uf_continue == 0 || isopen("factory") == false)
+craft(uf_id, uf_level, batches)
+waitframe()
+gotoif(failed, count(uf_id, uf_level) < before + batches)
+goto(next)
+
+produce_part:
+saved = uf_cursor
+global.double.set("uf_amount", batches)
+uf_cursor = s2i(sub(uf_row, 9, 2), 0)
+executesync("TPT2Upgrade:Decode")
+global.string.set("uf_input", uf_id)
+global.int.set("uf_input_tier", uf_level)
+uf_cursor = saved
+executesync("TPT2Upgrade:Decode")
+executesync("TPT2Upgrade:Batch")
+gotoif(failed, uf_state != 1)
+goto(next)
+
+dust:
+ore = global.double.get("uf_ore" . uf_cursor)
+lumps = max(0.0, batches - 2.0 * ore)
+gotoif(mix, ore <= 0.0)
+uf_job = "crusher"
+uf_yield = 2.0
+global.double.set("uf_amount", ore)
+global.string.set("uf_input", "ore")
+global.int.set("uf_input_tier", uf_level)
+executesync("TPT2Upgrade:Batch")
+gotoif(failed, uf_state != 1)
+mix:
+gotoif(next, lumps <= 0.0)
+uf_job = "mixer"
+uf_yield = 1.0
+global.double.set("uf_amount", lumps)
+global.string.set("uf_input", "lump")
+global.int.set("uf_input_tier", uf_level - 1)
+executesync("TPT2Upgrade:Batch")
+gotoif(failed, uf_state != 1)
+
+next:
+uf_cursor -= 1
+goto(node)
+failed:
+uf_state = 4
+done:

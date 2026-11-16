@@ -1,0 +1,80 @@
+:name TPT2Upgrade:Plan
+:budget_cap max
+:global int uf_continue
+:global int uf_length
+:global int uf_cursor
+:global string uf_id
+:global int uf_level
+:global int uf_op
+:global double uf_yield
+:global int uf_edges
+:global string uf_row
+:global int uf_short
+:global double uf_cost
+:local double missing
+:local double needed
+:local double units
+:local double ore
+:local int slot
+:local int offset
+:local int child
+:local double quantity
+:local double work
+
+; Propagate demand before dispatching anything. Shared inputs are reserved once.
+uf_short = 0
+uf_cost = 0.0
+uf_cursor = 0
+clear:
+global.double.set("uf_need" . uf_cursor, 0.0)
+global.double.set("uf_jobs" . uf_cursor, 0.0)
+global.double.set("uf_ore" . uf_cursor, 0.0)
+uf_cursor += 1
+gotoif(clear, uf_cursor < uf_length)
+global.double.set("uf_need0", 1.0)
+uf_cursor = 0
+node:
+gotoif(end, uf_continue == 0 || isopen("factory") == false)
+needed = global.double.get("uf_need" . uf_cursor)
+gotoif(next, needed <= 0.0)
+executesync("TPT2Upgrade:Decode")
+missing = max(0.0, needed - count(uf_id, uf_level))
+gotoif(raw, uf_op == 0)
+gotoif(next, missing <= 0.0)
+units = ceil(missing / uf_yield)
+global.double.set("uf_jobs" . uf_cursor, units)
+gotoif(dust, uf_op == 3)
+slot = 0
+edge:
+offset = 9 + slot * 4
+child = s2i(sub(uf_row, offset, 2), 0)
+quantity = s2d(sub(uf_row, offset + 2, 2), 0.0)
+global.double.set("uf_need" . child, global.double.get("uf_need" . child) + units * quantity)
+slot += 1
+gotoif(edge, slot < uf_edges)
+goto(next)
+
+raw:
+uf_cost += needed
+gotoif(next, missing <= 0.0)
+uf_short = 1
+goto(next)
+
+dust:
+ore = min(count("ore", uf_level), ceil(missing / 2.0))
+global.double.set("uf_ore" . uf_cursor, ore)
+child = s2i(sub(uf_row, 9, 2), 0)
+global.double.set("uf_need" . child, global.double.get("uf_need" . child) + ore)
+work = max(0.0, missing - ore * 2.0)
+gotoif(next, work <= 0.0)
+gotoif(no_dust, uf_edges < 2)
+child = s2i(sub(uf_row, 13, 2), 0)
+global.double.set("uf_need" . child, global.double.get("uf_need" . child) + work)
+goto(next)
+no_dust:
+uf_short = 1
+
+next:
+uf_cursor += 1
+gotoif(node, uf_cursor < uf_length)
+end:

@@ -56,3 +56,9 @@ A auditoria pela IA mostrou Assembly, Refiner, Cutter, Shaper e Boiler em T5, e 
 O [pacote Shaper](experimental/shaper-t6) integrou receita, refino por déficit e Presser. No jogo, 2 Ore T6 produziram 4 Dust, 4 Ingots e 4 Plate, usados no Shaper T6. A IA confirmou a máquina fabricada no inventário e posteriormente o tier instalado após a intervenção pela interface. F no início preservou os 5 Ore T6 e encerrou com estado 3. A tentativa rápida de F no pacote anterior do Refiner não interrompeu o despacho. Durante a auditoria, 8 acionou também TPT2Batch:Run, que converteu 1 Ore T1 em 2 Dust T1. O teste antigo de 8 e a primeira auditoria foram desabilitados, e o leitor de estoque passou a usar K.
 
 A revisão 09 do Gemini não chamava o Master de refino. Foi validada a implementação corrigida publicada na branch. O Gemini recebeu o ACK e o pedido de integrar a elevação de Dust pelo Mixer para o Cutter, com confirmação no Google Docs ainda pendente. Permanecem Assembly, Cutter e Boiler T5. Seleção pelo Master, movimentação de máquinas e ciclo Mine/Factory/Torre ainda precisam de integração.
+
+## 16/11/2026 — scripts individuais T1–T10
+
+O teste anterior relatou Cutter T6 instalado após fabricar as peças na Factory e movimentar a máquina pela interface. Nesse teste, a colocação no slot foi manual.
+
+O [protótipo por máquina e tier](experimental/factory-machine-upgrades) inclui 90 receitas de upgrade, 10 receitas iniciais e um executor compartilhado. As 50 receitas T2–T6 coincidem com a tabela da branch. A simulação executou 18 cenários, incluindo as dez cadeias T5–T10 a partir de Ore e Rubber. O Master seleciona máquina pelo menor tier com desempate por insumos faltantes, mantém o alvo até o teto configurado, e aguarda a instalação manual para avançar. O teto inicial é T6. O PC do projeto e a janela do Gemini estavam indisponíveis. Compilação no d0sboots, importação no jogo, leitura do Belt pela IA e integração com Mine/Torre seguem pendentes.
