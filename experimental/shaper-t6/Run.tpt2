@@ -1,0 +1,54 @@
+:name TPT2Shaper6:Run
+:global int sh6_state
+:global int rf_state
+:global int rf_tier
+:global int rf_batches
+:global double rf_goal
+:local double missing
+:local int polls
+
+key.l()
+gotoif(end, sh6_state == 1 || rf_state == 1 || isopen("factory") == false)
+gotoif(done, machine.tier("shaper") == 6)
+gotoif(install, count("machine.shaper", 6) >= 1.0)
+gotoif(blocked, machine.tier("shaper") != 5 && count("machine.shaper", 5) < 1.0)
+gotoif(blocked, count("screw", 6) < 3.0 || count("block", 6) < 3.0 || count("motor", 6) < 2.0 || count("cable.insulated", 6) < 2.0)
+sh6_state = 1
+wait(2.0)
+gotoif(closed, isopen("factory") == false)
+missing = max(0.0, 4.0 - count("plate", 6))
+gotoif(parts, count("ingot", 6) >= missing)
+gotoif(blocked, rf_state == 1)
+rf_tier = 6
+rf_goal = missing
+rf_batches = 0
+rf_state = 1
+execute("TPT2Refine:Master")
+polls = 0
+await_refine:
+wait(0.25)
+polls += 1
+gotoif(refining_expired, polls >= 600)
+gotoif(await_refine, rf_state == 1)
+gotoif(blocked, rf_state != 2)
+parts:
+gotoif(closed, isopen("factory") == false)
+executesync("TPT2Shaper6:Parts")
+goto(end)
+refining_expired:
+stop("TPT2Refine:Master")
+stop("TPT2Refine:Oven")
+stop("TPT2Refine:Crusher")
+rf_state = 6
+blocked:
+sh6_state = 5
+goto(end)
+closed:
+sh6_state = 4
+goto(end)
+install:
+sh6_state = 8
+goto(end)
+done:
+sh6_state = 2
+end:
