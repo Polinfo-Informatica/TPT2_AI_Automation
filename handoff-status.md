@@ -34,3 +34,9 @@ As cinco fontes da revisão 07 compilam (18, 20, 26, 44 e 23 ações, na ordem d
 O [pacote isolado do Crusher](experimental/crusher-batch) compilou, foi importado e executado no TPT2 v1.0.16. No Crusher T6, 1 Ore T1 virou 2 Dust T1. A parada por F antes do despacho seguinte encerrou o script sem consumir minério. Interromper um worker executado por `executesync` deixou o chamador preso no primeiro teste; a versão aprovada executa o lote diretamente.
 
 Próxima etapa: ligar Crusher → Oven, confirmar Ingot via inventário e integrar ao Master com parada limpa. O teste do Crusher não instala máquinas.
+
+## 16/11/2026 — Crusher → Oven aprovado
+
+O [pacote TPT2Smelt](experimental/crusher-oven) consumiu 1 Ore T1, produziu 2 Dust T1 e converteu esses 2 Dust em 2 Ingots T1. Inventário: Ore 56622 → 56621, Dust 2 → 4 → 2, Ingot 120 → 122. F antes do despacho seguinte encerrou o script e preservou o inventário. O pacote ficou habilitado, com 7 para um lote e overlay oculto. O Belt instalado foi confirmado visualmente como T6; sua leitura pela IA segue pendente.
+
+A proposta enviada pelo Gemini via chat validava `count("ingot", t) > 0`, o que poderia reportar sucesso com estoque preexistente. O teste publicado confirma a variação real do estoque. O Gemini recebeu o ACK e o pedido para ligar a produção ao déficit da receita no Master, mantendo parada por F e confirmação de inventário. A produção e os upgrades automáticos até T6 ainda dependem dessa integração.
