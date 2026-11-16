@@ -1,0 +1,8 @@
+:name TPT2Refiner6:Stop
+:global int ref6_state
+
+key.f()
+gotoif(end, ref6_state != 1)
+stop("TPT2Refiner6:Run")
+ref6_state = 3
+end:
