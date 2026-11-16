@@ -1,0 +1,11 @@
+:name TPT2Refine:Stop
+:global int rf_state
+
+key.f()
+gotoif(done, rf_state != 1)
+stop("TPT2Refine:QA_Deficit")
+stop("TPT2Refine:Master")
+stop("TPT2Refine:Oven")
+stop("TPT2Refine:Crusher")
+rf_state = 3
+done:
