@@ -1,0 +1,14 @@
+:name TPT2Refine:QA_No_Deficit
+:global int rf_state
+:global int rf_tier
+:global double rf_goal
+:global int rf_batches
+
+key.6()
+gotoif(done, rf_state == 1 || isopen("factory") == false)
+rf_tier = 2
+rf_goal = count("ingot", rf_tier)
+rf_batches = 0
+rf_state = 1
+execute("TPT2Refine:Master")
+done:
