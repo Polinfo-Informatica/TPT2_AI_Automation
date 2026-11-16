@@ -1,0 +1,58 @@
+:name TPT2Refine:Master
+:global int rf_state
+:global int rf_tier
+:global double rf_goal
+:global double rf_initial
+:global double rf_final
+:global int rf_batches
+:global int rf_step
+:global double rf_amount
+:local double missing
+:local int master_polls
+
+gotoif(invalid, rf_tier < 1 || rf_tier > 6 || rf_goal < 0.0 || isopen("factory") == false)
+rf_initial = count("ingot", rf_tier)
+rf_final = rf_initial
+cycle:
+gotoif(invalid, isopen("factory") == false)
+rf_final = count("ingot", rf_tier)
+missing = rf_goal - rf_final
+gotoif(done, missing <= 0.0)
+gotoif(blocked, factory.machine.active("oven") || machine.tier("oven") < rf_tier)
+rf_amount = min(missing, count("dust", rf_tier))
+rf_step = 0
+master_polls = 0
+gotoif(crush, rf_amount < 1.0)
+execute("TPT2Refine:Oven")
+goto(await_step)
+crush:
+gotoif(blocked, machine.tier("crusher") < rf_tier || factory.machine.active("crusher") || count("ore", rf_tier) < 1.0)
+rf_amount = 1.0
+execute("TPT2Refine:Crusher")
+await_step:
+wait(0.25)
+gotoif(halt, isopen("factory") == false)
+master_polls += 1
+gotoif(expired, master_polls >= 125)
+gotoif(await_step, rf_step == 0)
+gotoif(unconfirmed, rf_step != 1)
+rf_batches += 1
+goto(cycle)
+halt:
+stop("TPT2Refine:Oven")
+stop("TPT2Refine:Crusher")
+invalid:
+rf_state = 4
+goto(end)
+blocked:
+rf_state = 5
+goto(end)
+expired:
+stop("TPT2Refine:Oven")
+stop("TPT2Refine:Crusher")
+unconfirmed:
+rf_state = 6
+goto(end)
+done:
+rf_state = 2
+end:
