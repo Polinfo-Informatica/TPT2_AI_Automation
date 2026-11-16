@@ -1,0 +1,49 @@
+:name TPT2Refiner6:Run
+:global int ref6_state
+:global double ref6_rings
+:local int polls
+
+key.j()
+gotoif(end, ref6_state == 1 || isopen("factory") == false)
+gotoif(done, machine.tier("refinery") == 6)
+gotoif(install, count("machine.refinery", 6) >= 1.0)
+gotoif(blocked, machine.tier("refinery") != 5 && count("machine.refinery", 5) < 1.0)
+gotoif(blocked, count("plate.dense", 6) < 4.0 || count("motor", 6) < 2.0 || count("pump", 6) < 3.0 || count("chip", 2) < 2.0)
+ref6_state = 1
+wait(1.0)
+gotoif(closed, isopen("factory") == false)
+ref6_rings = count("ring", 6)
+gotoif(ready, ref6_rings >= 3.0)
+gotoif(blocked, machine.tier("shaper") < 1 || factory.machine.active("shaper") || count("rod", 6) < 3.0 - ref6_rings)
+produce("rod", 6, 3.0 - ref6_rings, "shaper")
+polls = 0
+await_ring:
+wait(0.25)
+gotoif(closed, isopen("factory") == false)
+ref6_rings = count("ring", 6)
+gotoif(ready, ref6_rings >= 3.0)
+polls += 1
+gotoif(await_ring, polls < 60)
+goto(blocked)
+ready:
+gotoif(manual, count("machine.refinery", 5) < 1.0)
+gotoif(blocked, factory.machine.active("refinery") || count("plate.dense", 6) < 4.0 || count("motor", 6) < 2.0 || count("pump", 6) < 3.0 || count("chip", 2) < 2.0)
+craft("machine.refinery", 6, 1.0)
+waitframe()
+gotoif(done, machine.tier("refinery") == 6)
+gotoif(install, count("machine.refinery", 6) >= 1.0)
+blocked:
+ref6_state = 5
+goto(end)
+closed:
+ref6_state = 4
+goto(end)
+manual:
+ref6_state = 7
+goto(end)
+install:
+ref6_state = 8
+goto(end)
+done:
+ref6_state = 2
+end:
