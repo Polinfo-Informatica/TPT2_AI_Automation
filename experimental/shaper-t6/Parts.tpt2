@@ -1,0 +1,39 @@
+:name TPT2Shaper6:Parts
+:global int sh6_state
+:local double needed
+:local int polls
+
+needed = 4.0 - count("plate", 6)
+gotoif(assemble, needed <= 0.0)
+gotoif(blocked, machine.tier("presser") < 1 || factory.machine.active("presser") || count("ingot", 6) < needed)
+produce("ingot", 6, needed, "presser")
+polls = 0
+await_plate:
+wait(0.25)
+gotoif(closed, isopen("factory") == false)
+gotoif(assemble, count("plate", 6) >= 4.0)
+polls += 1
+gotoif(await_plate, polls < 120)
+goto(blocked)
+assemble:
+gotoif(manual, count("machine.shaper", 5) < 1.0)
+gotoif(blocked, factory.machine.active("shaper") || count("screw", 6) < 3.0 || count("block", 6) < 3.0 || count("motor", 6) < 2.0 || count("cable.insulated", 6) < 2.0)
+craft("machine.shaper", 6, 1.0)
+waitframe()
+gotoif(done, machine.tier("shaper") == 6)
+gotoif(available, count("machine.shaper", 6) >= 1.0)
+blocked:
+sh6_state = 5
+goto(end)
+closed:
+sh6_state = 4
+goto(end)
+manual:
+sh6_state = 7
+goto(end)
+available:
+sh6_state = 8
+goto(end)
+done:
+sh6_state = 2
+end:
