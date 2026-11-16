@@ -1,0 +1,11 @@
+:name TPT2Batch:Stop
+:global int cr_run
+:global int cr_state
+
+key.f()
+stop("TPT2Crusher:Start")
+gotoif(done, cr_run == 0)
+cr_run = 0
+cr_state = 5
+stop("TPT2Batch:Run")
+done:
