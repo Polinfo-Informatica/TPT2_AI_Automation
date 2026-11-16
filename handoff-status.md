@@ -40,3 +40,11 @@ Próxima etapa: ligar Crusher → Oven, confirmar Ingot via inventário e integr
 O [pacote TPT2Smelt](experimental/crusher-oven) consumiu 1 Ore T1, produziu 2 Dust T1 e converteu esses 2 Dust em 2 Ingots T1. Inventário: Ore 56622 → 56621, Dust 2 → 4 → 2, Ingot 120 → 122. F antes do despacho seguinte encerrou o script e preservou o inventário. O pacote ficou habilitado, com 7 para um lote e overlay oculto. O Belt instalado foi confirmado visualmente como T6; sua leitura pela IA segue pendente.
 
 A proposta enviada pelo Gemini via chat validava `count("ingot", t) > 0`, o que poderia reportar sucesso com estoque preexistente. O teste publicado confirma a variação real do estoque. O Gemini recebeu o ACK e o pedido para ligar a produção ao déficit da receita no Master, mantendo parada por F e confirmação de inventário. A produção e os upgrades automáticos até T6 ainda dependem dessa integração.
+
+## 16/11/2026 — REV-20261115-08 e produção por déficit
+
+A revisão 08 consta no chat do Gemini. O Master original compilou com 15 ações, mas usava a meta fixa de 50 Ingots e disparava workers por intervalo sem aguardar confirmação. O Google Doc ainda exibia a revisão 07 na consulta desta sessão.
+
+O [pacote TPT2Refine](experimental/refine-deficit) foi ajustado para receber tier e meta, consultar estoque, usar Dust primeiro e sequenciar Crusher e Oven com confirmação pela variação de inventário. O teste T2 em jogo encontrou zero despachos para estoque suficiente (90 → 90), consumiu um Ore para subir de 90 a 92 Ingots em dois passos quando havia déficit e respeitou F antes do despacho com zero consumo. Os seis scripts passaram no compilador e na leitura de volta (6 a 36 ações). O pacote ficou habilitado com overlay oculto. Os testes usam 6 (estoque suficiente), 5 (déficit de 2) e F (parar).
+
+O Gemini recebeu o ACK em Argon Médio. O próximo passo solicitado é derivar a demanda de Ingot da receita do Oven T2 e dos déficits de componentes, chamar o Master e validar o primeiro upgrade. O pacote atual aceita meta definida pelo chamador; o planejamento das receitas e o upgrade automático continuam pendentes.
