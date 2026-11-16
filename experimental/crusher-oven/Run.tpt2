@@ -1,0 +1,54 @@
+:name TPT2Smelt:Run
+:global int sm_state
+:global double sm_ore_before
+:global double sm_ore_after
+:global double sm_dust_before
+:global double sm_dust_crushed
+:global double sm_dust_after
+:global double sm_ingot_before
+:global double sm_ingot_after
+:local int tries
+
+key.7()
+gotoif(done, sm_state == 1 || sm_state == 2 || sm_state == 3 || isopen("factory") == false)
+sm_state = 1
+wait(4.0)
+gotoif(blocked, isopen("factory") == false || factory.machine.active("crusher") || factory.machine.active("oven"))
+gotoif(blocked, machine.tier("crusher") < 1 || machine.tier("oven") < 1 || count("ore", 1) < 1.0)
+sm_ore_before = count("ore", 1)
+sm_dust_before = count("dust", 1)
+sm_ingot_before = count("ingot", 1)
+produce("ore", 1, 1.0, "crusher")
+sm_state = 2
+tries = 0
+crush:
+wait(0.25)
+gotoif(blocked, isopen("factory") == false)
+sm_ore_after = count("ore", 1)
+sm_dust_crushed = count("dust", 1)
+gotoif(smelt, sm_ore_after == sm_ore_before - 1.0 && sm_dust_crushed == sm_dust_before + 2.0)
+tries += 1
+gotoif(crush, tries < 120)
+goto(timeout)
+smelt:
+gotoif(blocked, factory.machine.active("oven"))
+produce("dust", 1, 2.0, "oven")
+sm_state = 3
+tries = 0
+bake:
+wait(0.25)
+gotoif(blocked, isopen("factory") == false)
+sm_dust_after = count("dust", 1)
+sm_ingot_after = count("ingot", 1)
+gotoif(ok, sm_dust_after == sm_dust_before && sm_ingot_after > sm_ingot_before)
+tries += 1
+gotoif(bake, tries < 120)
+timeout:
+sm_state = 4
+goto(done)
+ok:
+sm_state = 6
+goto(done)
+blocked:
+sm_state = 7
+done:
