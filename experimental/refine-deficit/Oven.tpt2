@@ -1,0 +1,26 @@
+:name TPT2Refine:Oven
+:global int rf_tier
+:global int rf_step
+:global double rf_amount
+:local double before_input
+:local double before_output
+:local int tries
+
+gotoif(failed, isopen("factory") == false || factory.machine.active("oven"))
+before_input = count("dust", rf_tier)
+before_output = count("ingot", rf_tier)
+gotoif(failed, rf_amount < 1.0 || before_input < rf_amount)
+produce("dust", rf_tier, rf_amount, "oven")
+tries = 0
+poll:
+wait(0.25)
+gotoif(failed, isopen("factory") == false)
+gotoif(ok, factory.machine.active("oven") == false && count("dust", rf_tier) == before_input - rf_amount && count("ingot", rf_tier) > before_output)
+tries += 1
+gotoif(poll, tries < 120)
+failed:
+rf_step = 2
+goto(done)
+ok:
+rf_step = 1
+done:
