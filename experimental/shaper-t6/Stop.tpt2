@@ -1,0 +1,9 @@
+:name TPT2Shaper6:Stop
+:global int sh6_state
+
+key.f()
+stop("TPT2Shaper6:Run")
+stop("TPT2Shaper6:Parts")
+gotoif(end, sh6_state != 1)
+sh6_state = 3
+end:
